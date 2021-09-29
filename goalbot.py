@@ -1,12 +1,11 @@
 from asyncio.tasks import sleep
+from logging import exception
 import discord
 from discord.ext.commands import Bot
 from discord.ext import commands
 import asyncio
 import asyncpraw
 import requests
-
-
 
 response = requests.get("https://fantasy.premierleague.com/api/bootstrap-static/")
 
@@ -16,6 +15,10 @@ if response.status_code == requests.codes.ok:
     jsonResponse = response.json()
     teamsPrelim = jsonResponse['teams']
     teams = [t['name'] for t in jsonResponse['teams']]
+    fullManc = "Manchester"
+    fullSpurs = "Tottenham"
+    teams += [fullManc, fullSpurs]
+    print(teams)
 
 mediaSites = ['streamwo.com', 'streamja.com', 'streamable.com', 'stream', 'clippituser.tv']
 
@@ -23,15 +26,14 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
-    print("test")
+    print("pyGoalBot connected")
     reddit = asyncpraw.Reddit(
         client_id="your_redditbot_id",
         client_secret="your_redditbot_secret",
         user_agent="Goal Bot")
 
-    submissionURL = ""
-    oldURL = ""
+    newSubmission = ""
+    oldSubmission = ""
     
 
     subreddit = await reddit.subreddit("soccer")
@@ -40,31 +42,18 @@ async def on_ready():
     async for submission in subreddit.stream.submissions():
         for t in teams:
             if t in submission.title:
-                for s in mediaSites:
-                    if s in submission.url:
-                        submissionURL = submission.title + " - " + submission.url
-        if oldURL != submissionURL:
-            await channel.send(submissionURL)
+                if " W " not in submission.title:
+                    for s in mediaSites:
+                        if s in submission.url:
+                            newSubmission = submission.title + " - " + submission.url
+        if oldSubmission != newSubmission:
+            embed=discord.Embed(title="GOAL")
+            embed.add_field(name=submission.title, value=submission.url, inline=False)
+            await channel.send(embed=embed)
+            print("New submission: " + newSubmission)
             await asyncio.sleep(1)
-            oldURL = submissionURL 
-            print("Old URL: " + oldURL)
-            print("URL: " + submissionURL)
+            oldSubmission = newSubmission 
+
+
 
 client.run('your_discord_token')
-
-
-
-    
-
-
-
-
-
-
-
-
-
-            
-
-
- 

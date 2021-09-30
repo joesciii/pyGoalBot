@@ -1,8 +1,4 @@
-from asyncio.tasks import sleep
-from logging import exception
 import discord
-from discord.ext.commands import Bot
-from discord.ext import commands
 import asyncio
 import asyncpraw
 import requests
@@ -18,7 +14,7 @@ if response.status_code == requests.codes.ok:
     fullManc = "Manchester"
     fullSpurs = "Tottenham"
     teams += [fullManc, fullSpurs]
-    print("Teams found: " + teams)
+
 else:
     print("Cannot access Premier League API to grab active teams. Try again later or manually populate the 'teams' list.")
     exit()
@@ -56,7 +52,5 @@ async def on_ready():
             print("New submission: " + newSubmission)
             await asyncio.sleep(1)
             oldSubmission = newSubmission 
-
-
 
 client.run('your_discord_token')

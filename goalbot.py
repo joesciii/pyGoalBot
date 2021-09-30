@@ -18,7 +18,10 @@ if response.status_code == requests.codes.ok:
     fullManc = "Manchester"
     fullSpurs = "Tottenham"
     teams += [fullManc, fullSpurs]
-    print(teams)
+    print("Teams found: " + teams)
+else:
+    print("Cannot access Premier League API to grab active teams. Try again later or manually populate the 'teams' list.")
+    exit()
 
 mediaSites = ['streamwo.com', 'streamja.com', 'streamable.com', 'stream', 'clippituser.tv']
 

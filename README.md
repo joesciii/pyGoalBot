@@ -1,6 +1,6 @@
 # pyGoalBot
 
-Scrapes reddit.com/r/soccer for new Premier League goal link posts and posts them to a discord channel.
+Simple utility to scrape reddit.com/r/soccer for new Premier League goal videos and post them to a discord channel.
 
 ## Dependencies
 
@@ -15,8 +15,3 @@ Install required dependencies and run the script. Currently the program derives 
 
 * 0.1
     * Base version
-
-
-
-
-

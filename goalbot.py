@@ -19,17 +19,18 @@ else:
     print("Cannot access Premier League API to grab active teams. Try again later or manually populate the 'teams' list.")
     exit()
 
-mediaSites = ['streamwo.com', 'streamja.com', 'streamable.com', 'stream', 'clippituser.tv']
+#IMPORTANT! THIS LIST IS VERY FLUID, REGULARLY UPDATE URLS BASED ON CURRENTLY USED VIDEO HOSTING SITES ON /R/SOCCER
+mediaSites = ['streamwo.com', 'streamja.com', 'streamable.com', 'stream', 'clippituser.tv', 'dubz.co', 'streamff.com', 'streamin.me']
 
-client = discord.Client()
+client = discord.Client(intents=discord.Intents.default())
 
 @client.event
 async def on_ready():
     print("pyGoalBot connected")
     #add reddit bot info below
     reddit = asyncpraw.Reddit(
-        client_id="your_redditbot_id",
-        client_secret="your_redditbot_secret",
+        client_id="insert reddit client id",
+        client_secret="insert reddit client secret",
         user_agent="Goal Bot")
 
     newSubmission = ""
@@ -37,7 +38,7 @@ async def on_ready():
     
 
     subreddit = await reddit.subreddit("soccer")
-    channel = client.get_channel(id=728287924495319120) # replace with your channel_id
+    channel = client.get_channel(insert your discord channel id) # replace with your channel_id
     
     async for submission in subreddit.stream.submissions():
         for t in teams:
@@ -60,4 +61,4 @@ async def on_ready():
                 oldSubmission = newSubmission 
                 await asyncio.sleep(1)      
 
-client.run('your_discordbot_token')
+client.run('insert your discord client secret')
